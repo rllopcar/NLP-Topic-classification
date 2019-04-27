@@ -45,6 +45,17 @@ There are simple text cleaning techniques that can be used as a first step, such
 - **Support Vector Machine(SVM):**In short, SVM takes care of drawing a “line” or hyperplane that divides a space into two subspaces: one subspace that contains vectors that belong to a group and another subspace that contains vectors that do not belong to that group. Those vectors are representations of your training texts and a group is a tag you have tagged your texts with.
 ### - **Deep learning:** The two main deep learning architectures used in text classification are Convolutional Neural Networks (CNN) and Recurrent Neural Networks (RNN).
 
+## Text processing
+The process to follow in order to transform raw text from human language to machine-readable format for further processing. Those steps are usually the following ones:
+- All letter to lower or upper case.
+- Converting numbers into words or removing numbers.
+- Removing pucntuation, accent marks and other diacritics.
+- Removing white spaces
+- Tokenization
+- Expanding abbreviations.
+- Removing stop words, sparse terms, and particular words.
+- Text canonicalization.
+
 
 
 
@@ -73,3 +84,7 @@ TOPIC classification of news
 - https://monkeylearn.com/text-classification/
 - **PAPER-->**http://cs229.stanford.edu/proj2018/report/183.pdf 
 - https://machinelearningmastery.com/best-practices-document-classification-deep-learning/
+- **BBC APIh-->**ttps://newsapi.org/
+- **Wor2Vec tutorials-->** https://www.tensorflow.org/tutorials/representation/word2vec
+- **Wor2Vec tutorials-->** http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/
+- **Word2Vec Tutorial-->** https://arxiv.org/abs/1301.3781#
