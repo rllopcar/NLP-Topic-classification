@@ -135,10 +135,10 @@ labels = []
 for article in texts_clean:
         tokenized_texts.append(article[0])
         labels.append(article[1])
-tokenized_texts = np.array(tokenized_texts)
+
+tokenized_texts = np.asarray(tokenized_texts)
 labels = np.array(labels)
 
-print(tokenized_texts[0])
 
 np.save('../data/features/tokenized',tokenized_texts)
 np.save('../data/features/labels',labels)
