@@ -130,7 +130,18 @@ for text in texts_clean:
 
 text_clean_np = np.array(texts_clean)
 
-np.save('../data/features/texts_clean',text_clean_np)
+tokenized_texts = []
+labels = []
+for article in texts_clean:
+        tokenized_texts.append(article[0])
+        labels.append(article[1])
+tokenized_texts = np.array(tokenized_texts)
+labels = np.array(labels)
+
+print(tokenized_texts[0])
+
+np.save('../data/features/tokenized',tokenized_texts)
+np.save('../data/features/labels',labels)
 
 
 
