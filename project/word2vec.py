@@ -4,14 +4,13 @@ import errno
 import json
 import numpy as np
 import pandas as pd
-#import matplotlib.pyplot as plt
 import nltk
 
 
 filepath = '../data/bbc/'
 
 labels = []
-# Accessing the labels names and saving then in "labels_names"
+# Accessing the labels names and saving then in "labels"
 files = os.listdir(filepath)
 for name in files:
     if os.path.isdir(filepath+name): 
@@ -38,11 +37,6 @@ for label in labels:
         texts_labels.append(texts_aux)
         texts_aux=[]
  
-# Labeled texts stored in a python list
-#print(len(texts_labels))
-
-
-
 # Labeled texts stored in numpy array
 texts_labels_np = np.array(texts_labels)
 
@@ -56,9 +50,6 @@ df = pd.DataFrame(texts_labels, columns=['text','label'])
 # Data preparation
 ######
 ######
-
-
-
 ## First step: Tokenize each text
 from nltk.tokenize import RegexpTokenizer
 
@@ -77,7 +68,7 @@ stemmer_cs = Cistem()
 # Import lemmatization libraries
 from nltk.stem import WordNetLemmatizer 
 lemmatizer = WordNetLemmatizer() 
-nltk.download('wordnet')
+#nltk.download('wordnet')
 
 # Load stop words 
 stop_words = stopwords.words('english')
@@ -113,8 +104,6 @@ for article in texts_labels_np:
 # Emedding the data
 ##
 ##
-
-
 # Transforming labels into numbers [business, entertainment, politics, sport, tech] -- [0,1,2,3,4]
 for text in texts_clean:
         if text[1]=='business':
@@ -149,7 +138,6 @@ train_ratio = 0.85
 x_train, x_test, t_train, t_test = train_test_split(tokenized_texts, labels, test_size=1 - train_ratio, stratify=labels)
 #x_dev, x_test, t_dev, t_test = train_test_split(x_test, t_test, test_size=0.5, stratify=t_test)
 
-
 ##
 ##
 # Word2Vec
@@ -182,32 +170,53 @@ def tag_docs(docs):
 # Train the doc2vec model
 def train_doc2vec_model(tagged_docs, window, vector_size):
     sents = tagged_docs.values
-    doc2vec_model = Doc2Vec(sents, vector_size=vector_size, window=window, epochs=20, dm=1)
+    doc2vec_model = Doc2Vec(sents, vector_size=vector_size, window=window, epochs=20, dm=0)
     return doc2vec_model
 
 # Construct the final vector feature for the classifier
 def vec_for_learning(doc2vec_model, tagged_docs):
     sents = tagged_docs.values
+    # Unzipping the values
     targets, regressors = zip(*[(doc.tags[0], doc2vec_model.infer_vector(doc.words, steps=20)) for doc in sents])
     return targets, regressors
 
 train_tagged = tag_docs(documents_train)
 test_tagged = tag_docs(documents_test)
 
-print(train_tagged.values)
 
-model = train_doc2vec_model(train_tagged, 20, 5)
+model = train_doc2vec_model(train_tagged, 15, 5)
 
 
 y_train, X_train = vec_for_learning(model, train_tagged)
 y_test, X_test = vec_for_learning(model, test_tagged)
 
 
+
+
+
+##
+##
+# Logistic regression
+##
+##
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
-
 logreg = LogisticRegression()
 logreg.fit(X_train, y_train)
 y_pred = logreg.predict(X_test)
-print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
-print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))
+print('Testing accuracy with LOGISTIC REGRESSION %s' % accuracy_score(y_test, y_pred))
+print('Testing F1 score with LOGISTIC REGRESSION: {}'.format(f1_score(y_test, y_pred, average='weighted')))
+
+##
+##
+# Random forest
+##
+##
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier(n_estimators=300, max_depth=150,n_jobs=1)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('Testing accuracy with RANDOM FOREST %s' % accuracy_score(y_test, y_pred))
+print('Testing F1 score with RANDOM FOREST: {}'.format(f1_score(y_test, y_pred, average='weighted')))
+
+
