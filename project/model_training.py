@@ -12,8 +12,7 @@ train_ratio = 0.3
 tokenized_attributes = np.load(dataPath+'features/tokenized.npy')
 # Load labels array 
 labels = np.load(dataPath+'features/labels.npy')
-# Load features and labels joint arrray
-features_labels = np.load(dataPath+'features/texts_clean.npy')
+
 
 x_train, x_test, t_train, t_test = train_test_split(tokenized_attributes, labels, test_size=1 - train_ratio, stratify=labels)
 x_dev, x_test, t_dev, t_test = train_test_split(x_test, t_test, test_size=0.5, stratify=t_test)
@@ -39,8 +38,6 @@ alpha = 0.025
 model = gensim.models.doc2vec.Doc2Vec(vector_size=50, min_count=2, epochs=40)
   
 print(x_train[:2])
-# model.build_vocab(x_train)
 
+#model.build_vocab(x_train)
 
-# model_dbow = Doc2Vec(dm=0, vector_size=300, negative=5, hs=0, min_count=2, sample = 0, workers=cores)
-# model_dbow.build_vocab([x for x in tqdm(train_tagged.values)])

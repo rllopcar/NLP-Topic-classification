@@ -129,6 +129,7 @@ for text in texts_clean:
                 text[1]=4
 
 text_clean_np = np.array(texts_clean)
+text_clean_pd = pd.DataFrame(texts_labels, columns=['text','label'])
 
 tokenized_texts = []
 labels = []
@@ -136,12 +137,77 @@ for article in texts_clean:
         tokenized_texts.append(article[0])
         labels.append(article[1])
 
-tokenized_texts = np.asarray(tokenized_texts)
-labels = np.array(labels)
+from sklearn.model_selection import train_test_split
+import gensim
+
+# Data file path
+dataPath = '../data/'
+
+# Train ratio
+train_ratio = 0.85
+
+x_train, x_test, t_train, t_test = train_test_split(tokenized_texts, labels, test_size=1 - train_ratio, stratify=labels)
+#x_dev, x_test, t_dev, t_test = train_test_split(x_test, t_test, test_size=0.5, stratify=t_test)
 
 
-np.save('../data/features/tokenized',tokenized_texts)
-np.save('../data/features/labels',labels)
+##
+##
+# Word2Vec
+##
+##
+
+from  gensim.models.doc2vec import TaggedDocument
+from  gensim.models.doc2vec import Doc2Vec
 
 
+import multiprocessing
+cores = multiprocessing.cpu_count()
 
+# We contruct the training and testing dataframe for the word2vec
+## Training
+words_train = pd.DataFrame(np.array(x_train), columns=['words'])
+tags_train = pd.DataFrame(np.array(t_train), columns=['tags'])
+documents_train = pd.concat([words_train, tags_train], axis=1)
+# Testing
+words_test = pd.DataFrame(np.array(x_test), columns=['words'])
+tags_test = pd.DataFrame(np.array(t_test), columns=['tags'])
+documents_test = pd.concat([words_test, tags_test], axis=1)
+
+
+# Build the document vectors
+def tag_docs(docs):
+    tagged = docs.apply(lambda r: gensim.models.doc2vec.TaggedDocument(words=r[0], tags=[r[1]]), axis=1)
+    return tagged
+
+# Train the doc2vec model
+def train_doc2vec_model(tagged_docs, window, vector_size):
+    sents = tagged_docs.values
+    doc2vec_model = Doc2Vec(sents, vector_size=vector_size, window=window, epochs=20, dm=1)
+    return doc2vec_model
+
+# Construct the final vector feature for the classifier
+def vec_for_learning(doc2vec_model, tagged_docs):
+    sents = tagged_docs.values
+    targets, regressors = zip(*[(doc.tags[0], doc2vec_model.infer_vector(doc.words, steps=20)) for doc in sents])
+    return targets, regressors
+
+train_tagged = tag_docs(documents_train)
+test_tagged = tag_docs(documents_test)
+
+print(train_tagged.values)
+
+model = train_doc2vec_model(train_tagged, 20, 5)
+
+
+y_train, X_train = vec_for_learning(model, train_tagged)
+y_test, X_test = vec_for_learning(model, test_tagged)
+
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score
+
+logreg = LogisticRegression()
+logreg.fit(X_train, y_train)
+y_pred = logreg.predict(X_test)
+print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
+print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))
