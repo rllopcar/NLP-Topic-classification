@@ -70,7 +70,7 @@ TOPIC classification of news
 
 - https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html
 - http://qwone.com/~jason/20Newsgroups/
-- https://github.com/scikit-learn/scikit-learn/tree/master/doc/tutorial/text_analytics
+- **text classification with Keras-->**https://github.com/scikit-learn/scikit-learn/tree/master/doc/tutorial/text_analytics
 - https://vgpena.github.io/classifying-tweets-with-keras-and-tensorflow/
 - https://nlp.stanford.edu/fsnlp/
 - https://www.youtube.com/results?search_query=nlp+processing+python+nltk
@@ -81,10 +81,25 @@ TOPIC classification of news
 - http://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf
 - https://towardsdatascience.com/multi-class-text-classification-model-comparison-and-selection-5eb066197568
 - https://en.wikipedia.org/wiki/Bag-of-words_model
-- https://monkeylearn.com/text-classification/
+- **Text classification: Comprehensive guide-->**https://monkeylearn.com/text-classification/
 - **PAPER-->**http://cs229.stanford.edu/proj2018/report/183.pdf 
 - https://machinelearningmastery.com/best-practices-document-classification-deep-learning/
-- **BBC APIh-->**ttps://newsapi.org/
+- **BBC API-->**ttps://newsapi.org/
 - **Wor2Vec tutorials-->** https://www.tensorflow.org/tutorials/representation/word2vec
 - **Wor2Vec tutorials-->** http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/
 - **Word2Vec Tutorial-->** https://arxiv.org/abs/1301.3781#
+- **Gentle introduction to Doc2Vec-->** https://medium.com/scaleabout/a-gentle-introduction-to-doc2vec-db3e8c0cce5e
+- **Word2Vec and FastText Word Embedding with Gensim-->** https://towardsdatascience.com/word-embedding-with-word2vec-and-fasttext-a209c1d3e12c
+- **Word2vec colab theory-->**https://chainer-colab-notebook.readthedocs.io/en/latest/notebook/official_example/word2vec.html
+- **Word embeddings crash course-->** https://www.datascience.com/resources/notebooks/word-embeddings-in-python
+- **Word embeddings exploratio -->** https://towardsdatascience.com/word-embeddings-exploration-explanation-and-exploitation-with-code-in-python-5dac99d5d795
+- **Multiclass text classification -->** https://towardsdatascience.com/multi-class-text-classification-with-doc2vec-logistic-regression-9da9947b43f4
+- **Surprising findings in text classification-->**https://towardsdatascience.com/surprising-findings-in-document-classification-7a79e30f1666
+- **Word2vec pipeline text classification-->**https://fzr72725.github.io/2018/01/14/genism-guide.html
+- **Gensim documentation-->**https://radimrehurek.com/gensim/models/doc2vec.html#gensim.models.doc2vec.TaggedDocument
+- **Twitter text classification Part1-->** https://towardsdatascience.com/another-twitter-sentiment-analysis-bb5b01ebad90
+- **Multi-Class Text Classification with Doc2Vec & Logistic Regression-->**https://towardsdatascience.com/multi-class-text-classification-with-doc2vec-logistic-regression-9da9947b43f4
+- **Text classificatio: Deep learning best practices-->** https://machinelearningmastery.com/best-practices-document-classification-deep-learning/
+- **Online news classification using Deep Learning Technique-->**https://pdfs.semanticscholar.org/44e7/01c61381ea208c468ccc7fd6cff1c7bba447.pdf
+- **Real-time news classifier-->** https://cs.nyu.edu/courses/spring17/CSCI-GA.3033-006/final_projects/realtime_news_classifier.pdf	
+- **Word2vec applied to Recommendation: Hyperparameters Matter-->**https://arxiv.org/pdf/1804.04212.pdf
